@@ -1,84 +1,45 @@
-import bitmex
-import requests, json
 import ccxt
 
-class spreadBot():
-    def __init__(self):
-        # self.client = bitmex.bitmex(test=False)
-        self.orderbook = []
-        self.bitmex = ccxt.bitmex()
-        self.exchange_class = getattr(ccxt, exchange_id)
-        self.exchange = self.exchange_class({
-            'apiKey': 'YOUR_API_KEY',
-            'secret': 'YOUR_SECRET',
-            'timeout': 30000,
-            'enableRateLimit': True,
-        })
-    def _set_orderbook(self, pair, depth):
-        # response = "https://www.bitmex.com/api/v1/trade?filter=%7B%22side%22%3A%22Buy%22%7D&count=100"
-        # response = requests.get("https://www.bitmex.com/api/v1/orderBook/L2?symbol=" + pair + "&depth=" + str(depth) + "/filter").json()
-        # result = self.client.Quote.Quote_get(symbol="XBTUSD", reverse=True, count=1).result()
-        # response = requests.get("https://www.bitmex.com/api/v1/orderBook/L2?symbol=" + pair + "&depth=" + str(depth)).json()
-        # response = self.client.Trade.Trade_get(symbol="XBTUSD", count=1, reverse=True).result() 
-        
-        self.orderbook = self.bitmex.fetch_order_book('BTC/USD')    
-        # return result
+bitmex   = ccxt.bitmex()
+exchange_id = 'bitmex'
+exchange_class = getattr(ccxt, exchange_id)
+exchange = exchange_class({
+    'apiKey': 'YOUR_API_KEY',
+    'secret': 'YOUR_SECRET',
+    'timeout': 30000,
+    'enableRateLimit': True,
+})
 
-    
+# hitbtc_markets = hitbtc.load_markets()
 
-    def _get_buy_sell_orders(self ):
-        
-        # iSellOrders = range(0,len(orderbook)/2)
-        # iBuyOrders = range(len(orderbook/2,len(orderbook-1)))
+# print(hitbtc.id, hitbtc_markets)
+# print(bitmex.id, bitmex.load_markets())
+# print(huobipro.id, huobipro.load_markets())
 
-        SellOrders = []
-        BuyOrders = []
-        
-        for order in self.orderbook:
-            if order['side'] == 'Sell':
-                SellOrders.append(order)
-            elif order['side'] == 'Buy':
-                BuyOrders.append(order)
+# print(hitbtc.fetch_order_book(hitbtc.symbols[0]))
+# print(bitmex.fetch_markets())
+orderbook = bitmex.fetch_order_book('BTC/USD')
 
-        return SellOrders, BuyOrders
+bids = orderbook['bids']
+asks = orderbook['asks']
 
-    def _get_prices_quantity(self):
-        SellPrices = []
-        BuyPrices = []
-        SellQuantity = []
-        BuyQuantity = []
+print("bids = " + str(bids))
+print("asks = " + str(asks))
 
-        for order in self.orderbook:
-            if order['side'] == 'Sell':
-                SellPrices.append(order['price'])
-                SellQuantity.append(order['size'])
-            elif order['side'] == 'Buy':
-                BuyPrices.append(order['price'])
-                BuyQuantity.append(order['size'])
-        return SellPrices, SellQuantity, BuyPrices, BuyQuantity
+spread = []
+for i in range(min(len(bids), len(asks))):
+    spread.append(asks[i][0] - bids[i][0])
 
-    def print_buy_sell_orders(self):
-        SellPrices, SellQuantity, BuyPrices, BuyQuantity = self._get_prices_quantity()
-        print(SellPrices)
-        print(BuyPrices)
+print("spread = " + str(spread))
+# print(huobipro.fetch_trades('LTC/CNY'))
 
-    def get_spread(self, pair, depth):
-        self._set_orderbook(pair, depth)
-        self._get_prices_quantity()
+# print(exmo.fetch_balance())
 
-        SellPrices, SellQuantity, BuyPrices, BuyQuantity = self._get_prices_quantity()
-        spread = []
-        for i in range(min(len(BuyPrices), len(SellPrices))):
-            spread.append(float(SellPrices[i]) - float(BuyPrices[i]))
-        return spread
+# sell one ฿ for market price and receive $ right now
+# print(exmo.id, exmo.create_market_sell_order('BTC/USD', 1))
 
+# limit buy BTC/EUR, you pay €2500 and receive ฿1  when the order is closed
+# print(exmo.id, exmo.create_limit_buy_order('BTC/EUR', 1, 2500.00))
 
-if __name__ == "__main__":
-    spread_bot = spreadBot()
-    pair = 'XBTUSD'
-    orderbook_depth = 10
-    # print(spread_bot.get_orderbook(pair, orderbook_depth))
-    spread_bot._set_orderbook(pair, orderbook_depth)
-    print(spread_bot._get_buy_sell_orders())
-    spread_bot.print_buy_sell_orders()
-    print("spread = " + str(spread_bot.get_spread(pair, orderbook_depth)))
+# pass/redefine custom exchange-specific order params: type, amount, price, flags, etc...
+# kraken.create_market_buy_order('BTC/USD', 1, {'trading_agreement': 'agree'})
