@@ -50,15 +50,15 @@ class spreadBot():
         print(buy_price)
         # print(buy_quantity)
         quantity = min(buy_quantity, sell_quantity, btc_balance/2*buy_price, btc_balance/2*sell_price)
-        order_type = 'market'
+        order_type = 'limit'
         params = {'execInst': 'ParticipateDoNotInitiate'}
 
         # print(spread)
         # print(buy_price)
 
-        # if spread > 2.0: 
-        self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params)
-        self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params)
+        if spread > 2.0: 
+            self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params)
+            self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params)
 
 if __name__ == "__main__":
 
