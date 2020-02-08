@@ -1,11 +1,18 @@
 import ccxt
+import time
+    
+
+f = open('data.csv', 'a')
+f.write("bid price, ask price, bid quanitity, ask quantity, spread,\n")
+f.close()
+
 
 bitmex   = ccxt.bitmex()
 exchange_id = 'bitmex'
 exchange_class = getattr(ccxt, exchange_id)
 exchange = exchange_class({
-    'apiKey': 'YOUR_API_KEY',
-    'secret': 'YOUR_SECRET',
+    'apiKey': 'UEQtbUhwe2UGg3l8csciE2nE',
+    'secret': '6cd2OBoFEr1_qzJmdlr2uoxAciRceJyGnQ5malr7aodnT4md',
     'timeout': 30000,
     'enableRateLimit': True,
 })
@@ -18,19 +25,29 @@ exchange = exchange_class({
 
 # print(hitbtc.fetch_order_book(hitbtc.symbols[0]))
 # print(bitmex.fetch_markets())
-orderbook = bitmex.fetch_order_book('BTC/USD')
 
-bids = orderbook['bids']
-asks = orderbook['asks']
 
-print("bids = " + str(bids))
-print("asks = " + str(asks))
 
-spread = []
-for i in range(min(len(bids), len(asks))):
-    spread.append(asks[i][0] - bids[i][0])
 
-print("spread = " + str(spread))
+# print("bids = " + str(bids))
+# print("asks = " + str(asks))
+   
+
+# print("spread = " + str(spread))
+
+while True:
+    # spread = []
+    orderbook = bitmex.fetch_order_book('BTC/USD')
+    bids = orderbook['bids']
+    asks = orderbook['asks']
+
+    with open('data.csv', 'a') as f:
+        for i in range(min(len(bids), len(asks))):
+            # spread.append(asks[i][0] - bids[i][0])
+            # print(asks[i][1])
+            f.write(str(bids[i][0]) + ", " + str(asks[i][0]) + ", " + str(bids[i][1]) + ", " + str(asks[i][1]) + ", " + str(asks[i][0] - bids[i][0]) + " USD,\n")
+    time.sleep(1)
+
 # print(huobipro.fetch_trades('LTC/CNY'))
 
 # print(exmo.fetch_balance())
