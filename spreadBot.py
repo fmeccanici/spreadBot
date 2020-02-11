@@ -1,9 +1,12 @@
 import ccxt
 import time
-    
+import pandas as pd
+import matplotlib.pyplot as plt
+import csv
+
 class spreadBot():
 
-    def __init__(self, apiKey, secretKey, trade_amount):
+    def __init__(self, apiKey, secretKey, trade_amount, leverage):
         self.bitmex   = ccxt.bitmex(
             {
             'apiKey': apiKey,
@@ -15,10 +18,11 @@ class spreadBot():
         self.symbol = 'BTC/USD'
         self.balance = {'BTC':0.0, 'USD':0.0}
         self.trade_amount = trade_amount
+        self.leverage = leverage
 
     def collect_data(self):
         f = open('data.csv', 'a')
-        f.write("bid price, ask price, bid quantity, ask quantity, spread,\n")
+        f.write("time, bid price, ask price, bid quantity, ask quantity, spread,\n")
         f.close()
         while True:
             try:
@@ -27,7 +31,7 @@ class spreadBot():
                 asks = orderbook['asks']
 
                 with open('data.csv', 'a') as f:
-                        f.write(str(bids[0][0]) + ", " + str(asks[0][0]) + ", " + str(bids[0][1]) + ", " + str(asks[0][1]) + ", " + str(asks[0][0] - bids[0][0]) + " USD,\n")
+                    f.write(time.ctime(time.time()) + ", " + str(bids[0][0]) + ", " + str(asks[0][0]) + ", " + str(bids[0][1]) + ", " + str(asks[0][1]) + ", " + str(asks[0][0] - bids[0][0]) + " USD,\n")
                 time.sleep(2)
             except Exception as e: print(e) 
 
@@ -50,24 +54,44 @@ class spreadBot():
         quantity = self.trade_amount
 
         order_type = 'limit'
-        params = {'execInst': 'ParticipateDoNotInitiate'}
+        params = {'execInst': 'ParticipateDoNotInitiate',
+        'leverage': self.leverage,
+        }
 
-
-        if spread > 2: 
+        if spread > 0: 
             self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params)
             self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params)
             print("trade executed")
         else:
             print("spread < 2")
 
+
+    def plot_data(self, data):
+        aList=[]
+        with open(data, 'r') as f:
+            reader = csv.reader(f, skipinitialspace=False,delimiter=',', quoting=csv.QUOTE_NONE)
+            for row in reader:
+                aList.append(row)
+        data = pd.DataFrame(aList)
+        plt.plot(data[5][1:].map(lambda x: float(x.rstrip('USD '))))
+        plt.ylabel('spread [USD]')
+        plt.show()
+        # data.plot(kind='line', x = data[0:], y = data[5:])
+
 if __name__ == "__main__":
 
-    apiKey = 'UEQtbUhwe2UGg3l8csciE2nE'
-    secretKey = '6cd2OBoFEr1_qzJmdlr2uoxAciRceJyGnQ5malr7aodnT4md'
+    apiKey = ''
+    secretKey = ''
     trade_amount = 0
-    spread_bot = spreadBot(apiKey, secretKey, trade_amount)
+    leverage = 0
+    spread_bot = spreadBot(apiKey, secretKey, trade_amount, leverage)
 
-    while True:
-        try:
-            spread_bot.run()
-        except Exception as e: print(e)
+    spread_bot.plot_data('data.csv')
+    # spread_bot.run()
+
+    # while True:
+        # try:
+            # spread_bot.run()
+            # spread_bot.collect_data()
+        # except Exception as e: print(e)
+
