@@ -60,11 +60,15 @@ class spreadBot():
 
         # if spread > 0: 
         buy_order = (self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params))
-        if buy_order['info']['filled'] == 0:
-            
-        print(self.bitmex.fetch_order(buy_order['info']['orderID']))
-
+        # print(self.bitmex.fetch_order(buy_order['info']['orderID']))
         sell_order = (self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params))
+
+        # print(buy_order)
+        time.sleep(5)
+        if buy_order['status'] == 'open' or sell_order['status'] == 'open':
+            self.bitmex.cancel_order(buy_order['info']['orderID'])
+            self.bitmex.cancel_order(sell_order['info']['orderID'])
+
         # print("trade executed")
         # else:
         #     print("spread < 2")
