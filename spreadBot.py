@@ -37,7 +37,7 @@ class spreadBot():
 
 
     def run(self):
-        # btc_balance = self.bitmex.fetch_balance()['BTC']['free']
+        btc_balance = self.bitmex.fetch_balance()['BTC']['free']
 
         orderbook = self.bitmex.fetch_order_book(self.symbol)
         bids = orderbook['bids']
@@ -45,25 +45,29 @@ class spreadBot():
 
         sell_price = asks[0][0]
         buy_price = bids[0][0]
-        # sell_quantity = asks[0][1]
-        # buy_quantity = bids[0][1]
+        sell_quantity = asks[0][1]
+        buy_quantity = bids[0][1]
 
-        spread = sell_price - buy_price
+        # spread = sell_price - buy_price
 
-        # quantity = min(buy_quantity, sell_quantity, btc_balance/2*buy_price, btc_balance/2*sell_price)
-        quantity = self.trade_amount
+        quantity = min(buy_quantity, sell_quantity, btc_balance/2*buy_price, btc_balance/2*sell_price)
+        # quantity = self.trade_amount
 
         order_type = 'limit'
         params = {'execInst': 'ParticipateDoNotInitiate',
         'leverage': self.leverage,
         }
 
-        if spread > 0: 
-            self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params)
-            self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params)
-            print("trade executed")
-        else:
-            print("spread < 2")
+        # if spread > 0: 
+        buy_order = (self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params))
+        if buy_order['info']['filled'] == 0:
+            
+        print(self.bitmex.fetch_order(buy_order['info']['orderID']))
+
+        sell_order = (self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params))
+        # print("trade executed")
+        # else:
+        #     print("spread < 2")
 
 
     def plot_data(self, data):
@@ -80,14 +84,14 @@ class spreadBot():
 
 if __name__ == "__main__":
 
-    apiKey = ''
-    secretKey = ''
+    apiKey = 'UVpDaNvrCQfx0qkIb4Dd0Uu4'
+    secretKey = 'M-6-dwI2soY91fYsLgwPUQP9TDet0PifAnmDCMIhsAvQqNYt'
     trade_amount = 0
     leverage = 0
     spread_bot = spreadBot(apiKey, secretKey, trade_amount, leverage)
 
-    spread_bot.plot_data('data.csv')
-    # spread_bot.run()
+    # spread_bot.plot_data('data.csv')
+    spread_bot.run()
 
     # while True:
         # try:
