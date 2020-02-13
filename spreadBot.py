@@ -43,13 +43,15 @@ class spreadBot():
         bids = orderbook['bids']
         asks = orderbook['asks'] 
 
-        sell_price = asks[0][0]
-        buy_price = bids[0][0]
-        sell_quantity = asks[0][1]
-        buy_quantity = bids[0][1]
+        buy_price = asks[0][0]-0.5
+        sell_price = bids[0][0]+0.5
+        buy_quantity = asks[0][1]
+        sell_quantity = bids[0][1]
 
+        print("b: " + str(buy_price))
+        print("s: " + str(sell_price))
         # spread = sell_price - buy_price
-
+        
         quantity = min(buy_quantity, sell_quantity, btc_balance/2*buy_price, btc_balance/2*sell_price)
         # quantity = self.trade_amount
 
@@ -57,22 +59,59 @@ class spreadBot():
         params = {'execInst': 'ParticipateDoNotInitiate',
         'leverage': self.leverage,
         }
-
+        
+        wait = time.time()
         # if spread > 0: 
         buy_order = (self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params))
         # print(self.bitmex.fetch_order(buy_order['info']['orderID']))
         sell_order = (self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params))
 
-        # print(buy_order)
-        time.sleep(5)
-        if buy_order['status'] == 'open' or sell_order['status'] == 'open':
-            self.bitmex.cancel_order(buy_order['info']['orderID'])
-            self.bitmex.cancel_order(sell_order['info']['orderID'])
+        while True:
+            if (self.bitmex.fetch_order(buy_order['info']['orderID']) != 'open') and (self.bitmex.fetch_order(sell_order['info']['orderID'] == 'open'):
+                orderbook = self.bitmex.fetch_order_book(self.symbol)
+                bids = orderbook['bids']
+                spread = sell_price - bids[0][0]
+                if spread < -4.0:
+                    self.bitmex.cancel_order(sell_order['info']['orderID'])
+                    sell_order = (self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (bids[0][0]+0.5), params))
+                wait -= time.time()
+
+            elif (self.bitmex.fetch_order(buy_order['info']['orderID']) == 'open') and (self.bitmex.fetch_order(sell_order['info']['orderID'] != 'open'):
+                orderbook = self.bitmex.fetch_order_book(self.symbol)
+                asks = orderbook['asks'] 
+                spread = buy_price - asks[0][0]
+                if spread > 4.0:
+                    self.bitmex.cancel_order(sell_order['info']['orderID'])
+                    sell_order = (self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (asks[0][0]-0.5), params))
+                wait -= time.time()
+            elif (self.bitmex.fetch_order(buy_order['info']['orderID']) == 'open') and (self.bitmex.fetch_order(sell_order['info']['orderID'] == 'open'):
+                orderbook = self.bitmex.fetch_order_book(self.symbol)
+                asks = orderbook['asks'] 
+                bids = orderbook['bids'] 
+                buy_spread = buy_price - asks[0][0]
+                sell_spread = sell_price - bids[0][0]
+                if buy_spread > 4.0 or sell_spread < -4.0:
+                    self.bitmex.cancel_order(sell_order['info']['orderID'])
+                    sell_order = (self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (asks[0][0]-0.5), params))
+                wait -= time.time()                
+            else: break
+
+
+            
+            # if buy_order
+        print(buy_order)
+        print(sell_order)
+        
+        
+        # time.sleep(5)
+        # if buy_order['status'] == 'open' or sell_order['status'] == 'open':
+        #     self.bitmex.cancel_order(buy_order['info']['orderID'])
+        #     self.bitmex.cancel_order(sell_order['info']['orderID'])
 
         # print("trade executed")
         # else:
         #     print("spread < 2")
-
+        
 
     def plot_data(self, data):
         aList=[]
@@ -98,8 +137,8 @@ if __name__ == "__main__":
     spread_bot.run()
 
     # while True:
-        # try:
-            # spread_bot.run()
-            # spread_bot.collect_data()
-        # except Exception as e: print(e)
+    #     try:
+    #         spread_bot.run()
+    #         # spread_bot.collect_data()
+    #     except Exception as e: print(e)
 
