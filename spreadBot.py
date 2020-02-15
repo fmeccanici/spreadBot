@@ -63,7 +63,10 @@ class spreadBot():
         # limit orders
 
         buy_limit_order = (self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params))
+        print("buy limit placed")
+
         sell_limit_order = (self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), (sell_price), params))
+        print("sell limit placed")
 
         # stop loss orders
         order_type = 'Stop'
@@ -72,22 +75,23 @@ class spreadBot():
         }
 
         buy_stop_loss_order = self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), None, params)
-        
+        print("buy stop loss placed")
+
 
         params = {
         'stopPx': sell_price  + 10,  # if needed
         }
 
         sell_stop_loss_order = self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), None, params)
-
+        print("sell stop loss placed")
         
 
         while True:
             # if buy limit order is filled but sell limit order is still open
-            if (self.bitmex.fetch_order(buy_limit_order['info']['orderID']['status']) != 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID']['status']) == 'open'):    
+            if (self.bitmex.fetch_order(buy_limit_order['info']['orderID'])['status'] != 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID'])['status'] == 'open'):    
                 
                 # if sell stop loss order is filled
-                if (self.bitmex.fetch_order(sell_stop_loss_order['info']['orderID']['status']) != 'open'):
+                if (self.bitmex.fetch_order(sell_stop_loss_order['info']['orderID'])['status'] != 'open'):
 
                     # cancel sell limit order
                     self.bitmex.cancel_order(sell_limit_order['info']['orderID'])
@@ -121,9 +125,9 @@ class spreadBot():
                     print("Placed new sell limit order")
 
             # if sell limit order is filled but buy limit order is still open
-            elif (self.bitmex.fetch_order(buy_limit_order['info']['orderID']['status']) == 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID']['status']) != 'open'):    
+            elif (self.bitmex.fetch_order(buy_limit_order['info']['orderID'])['status'] == 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID'])['status'] != 'open'):    
                 # if buy stop loss order is filled
-                if (self.bitmex.fetch_order(buy_stop_loss_order['info']['orderID']['status']) != 'open'):
+                if (self.bitmex.fetch_order(buy_stop_loss_order['info']['orderID'])['status'] != 'open'):
 
                     # cancel buy limit order
                     self.bitmex.cancel_order(buy_limit_order['info']['orderID'])
@@ -155,21 +159,21 @@ class spreadBot():
                     # place new buy limit order
                     buy_limit_order = (self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), (buy_price), params))
                     print("Placed new buy limit order")
-            elif (self.bitmex.fetch_order(buy_limit_order['info']['orderID']['status']) != 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID']['status']) != 'open'):
+            elif (self.bitmex.fetch_order(buy_limit_order['info']['orderID'])['status'] != 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID'])['status'] != 'open'):
                 print("Both buy and sell limit order filled")
                 break    
-            elif (self.bitmex.fetch_order(buy_limit_order['info']['orderID']['status']) == 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID']['status']) == 'open'):
+            elif (self.bitmex.fetch_order(buy_limit_order['info']['orderID'])['status'] == 'open') and (self.bitmex.fetch_order(sell_limit_order['info']['orderID'])['status'] == 'open'):
                 print("Both buy and sell limit order not filled --> Waiting until one of them fills")
                 
-                if (self.bitmex.fetch_order(buy_stop_loss_order['info']['orderID']['status']) != 'open'):
+                if (self.bitmex.fetch_order(buy_stop_loss_order['info']['orderID'])['status'] != 'open'):
                     self.bitmex.cancel_order(buy_limit_order['info']['orderID'])
                     print("Buy stop loss order activated --> Canceled buy limit order" )
                
-                elif (self.bitmex.fetch_order(sell_stop_loss_order['info']['orderID']['status']) != 'open'):
+                elif (self.bitmex.fetch_order(sell_stop_loss_order['info']['orderID'])['status'] != 'open'):
                     self.bitmex.cancel_order(sell_limit_order['info']['orderID'])
                     print("Sell stop loss order activated --> Canceled sell limit order" )
 
-                elif (self.bitmex.fetch_order(sell_stop_loss_order['info']['orderID']['status']) != 'open') and (self.bitmex.fetch_order(buy_stop_loss_order['info']['orderID']['status']) != 'open'):
+                elif (self.bitmex.fetch_order(sell_stop_loss_order['info']['orderID'])['status'] != 'open') and (self.bitmex.fetch_order(buy_stop_loss_order['info']['orderID'])['status'] != 'open'):
                     self.bitmex.cancel_order(buy_limit_order['info']['orderID'])
                     self.bitmex.cancel_order(sell_limit_order['info']['orderID'])
 
@@ -191,14 +195,14 @@ class spreadBot():
 
 if __name__ == "__main__":
 
-    apiKey = ''
-    secretKey = ''
-    trade_amount = 0
-    leverage = 0
+    apiKey = 'Gd5LBVd5KJKD2rv0RNQJ-Dek'
+    secretKey = 'pzgmaHVKvxuym7BZA0LWnlR9WUdjAyzFHqFQawMht0hdCCV2'
+    trade_amount = 1
+    leverage = 100
     spread_bot = spreadBot(apiKey, secretKey, trade_amount, leverage)
 
-    spread_bot.plot_data('data.csv')
-    # spread_bot.run()
+    # spread_bot.plot_data('data.csv')
+    spread_bot.run()
 
     # while True:
     #     try:
