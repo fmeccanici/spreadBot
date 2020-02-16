@@ -71,7 +71,7 @@ class spreadBot():
         # stop loss orders
         order_type = 'Stop'
         params = {
-        'stopPx': buy_price  - 10,  # if needed
+        'stopPrice': buy_price  + 10,  # if needed
         }
 
         buy_stop_loss_order = self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), None, params)
@@ -79,7 +79,7 @@ class spreadBot():
 
 
         params = {
-        'stopPx': sell_price  + 10,  # if needed
+        'stopPrice': sell_price  - 10,  # if needed
         }
 
         sell_stop_loss_order = self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), None, params)
