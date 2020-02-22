@@ -117,15 +117,6 @@ class spreadBot():
             sell_prices = np.zeros(2)
 
             with open("log_file.txt", 'a') as log_file:
-                try:
-                    buy_limit_order = self.executeBuyLimitOrder(quantity, buy_price, self.leverage)
-                    sell_limit_order = self.executeSellLimitOrder(quantity, sell_price, self.leverage)
-                    with open("executed_trades.txt", 'a') as f:
-                        f.write(str(buy_limit_order) + '\n \n')
-                        f.write(str(sell_limit_order) + '\n \n')
-                except Exception as e:
-                    log_file.write(str(e) + '\n')
-                    
                 while True:
                     try:
                         orderbook = self.getOrderBook(1)
