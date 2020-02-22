@@ -1,1 +1,1 @@
-# spreadBot
+# Spread bot

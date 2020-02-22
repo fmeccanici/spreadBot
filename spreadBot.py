@@ -3,10 +3,11 @@ import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import csv
+import numpy as np
 
 class spreadBot():
 
-    def __init__(self, apiKey, secretKey, trade_amount, leverage, stop_price_difference):
+    def __init__(self, apiKey, secretKey, trade_amount, leverage):
         self.bitmex   = ccxt.bitmex(
             {
             'apiKey': apiKey,
@@ -19,7 +20,6 @@ class spreadBot():
         self.balance = {'BTC':0.0, 'USD':0.0}
         self.trade_amount = trade_amount
         self.leverage = leverage
-        self.stop_price_difference = stop_price_difference
 
     def collect_data(self):
         f = open('data.csv', 'a')
@@ -47,6 +47,7 @@ class spreadBot():
         sell_quantity = bids[0][1]        
 
         return buy_price, sell_price, buy_quantity, sell_quantity
+
 
     def executeBuyLimitOrder(self, quantity, price, leverage):
         order_type = 'limit'
@@ -86,7 +87,151 @@ class spreadBot():
         self.bitmex.cancel_order(order['info']['orderID'])
 
 
-    def run(self):
+    def getOrderBook(self, depth):
+        return self.bitmex.fetch_order_book(self.symbol, depth)
+
+    def getFirstPrices(self):
+        orderbook = self.getOrderBook(1)
+        bids = orderbook['bids']
+        asks = orderbook['asks'] 
+
+        buy_price = asks[0][0]
+        sell_price = bids[0][0]
+
+        return buy_price, sell_price
+        
+    def getSpread(self):
+        buy_price, sell_price = self.getFirstPrices()
+
+        return sell_price - buy_price    
+
+
+    def getMarketDirection(self, previous_price, current_price):
+        orderbook = self.getOrderbook()
+
+    def runSpreadBot(self):
+            buy_limit_orders = []
+            sell_limit_orders = []
+            
+            buy_prices = np.zeros(2)
+            sell_prices = np.zeros(2)
+
+            with open("log_file.txt", 'a') as log_file:
+                try:
+                    buy_limit_order = self.executeBuyLimitOrder(quantity, buy_price, self.leverage)
+                    sell_limit_order = self.executeSellLimitOrder(quantity, sell_price, self.leverage)
+                    with open("executed_trades.txt", 'a') as f:
+                        f.write(str(buy_limit_order) + '\n \n')
+                        f.write(str(sell_limit_order) + '\n \n')
+                except Exception as e:
+                    log_file.write(str(e) + '\n')
+                    
+                while True:
+                    try:
+                        orderbook = self.getOrderBook(1)
+                        bids = orderbook['bids']
+                        asks = orderbook['asks'] 
+
+                        buy_prices[0] = buy_prices[1]
+                        sell_prices[0] = sell_prices[1]
+
+                        buy_prices[1] = asks[0][0]
+                        sell_prices[1] = bids[0][0]
+
+                        spread = buy_prices[1] - sell_prices[1]  
+
+                        quantity = self.trade_amount
+
+                        if spread > 0.5 and buy_prices[0] != 0.0:
+
+                            # market goes up
+                            if buy_prices[0] - buy_prices[1] < 0:
+                                buy_price = buy_prices[1] + 1.0
+                                sell_price = sell_prices[1] + 1.5
+                                try:
+                                    buy_limit_order = self.executeBuyLimitOrder(quantity, buy_price, self.leverage)
+                                    sell_limit_order = self.executeSellLimitOrder(quantity, sell_price, self.leverage)
+                                    with open("executed_trades.txt", 'a') as f:
+                                        f.write(str(buy_limit_order) + '\n \n')
+                                        f.write(str(sell_limit_order) + '\n \n')
+                                except:
+                                    continue
+
+                            # market goes down
+                            elif buy_prices[1] - buy_prices[0] < 0:
+                                buy_price = buy_prices[1] - 1.5
+                                sell_price = sell_prices[1] - 1
+                                try:
+                                    buy_limit_order = self.executeBuyLimitOrder(quantity, buy_price, self.leverage)
+                                    sell_limit_order = self.executeSellLimitOrder(quantity, sell_price, self.leverage)
+                                    with open("executed_trades.txt", 'a') as f:
+                                        f.write(str(buy_limit_order) + '\n \n')
+                                        f.write(str(sell_limit_order) + '\n \n')
+                                except:
+                                    continue
+                        else:
+                            print("Spread = " + str(spread))
+                    except Exception as e:
+                        log_file.write(str(e) + "\n")
+                        continue
+
+    def runLimitOrderPlacementLoop(self, buy_limit_order, sell_limit_order, buy_price, sell_price):
+        t0 = time.time()
+        timeThreshold = 10.0
+
+        while True:
+            if self.isFilled(buy_limit_orders[-1]) and not self.isFilled(sell_limit_orders[-1]):
+
+                print("buy limit order filled, sell limit order not filled")
+                print("t = " + str(round(self.timePassed(t0, time.time()))))
+
+                if self.timePassed(t0, time.time()) < timeThreshold:
+                    print("time threshold not reached --> wait for sell limit order to fill")
+                    continue
+                else:
+                    print("time threshold reached --> cancel sell limit order and place new one")
+                    self.cancelOrder(sell_limit_orders[-1])
+                    print("status of sell limit order is: " + str(self.getStatus(sell_limit_orders[-1])))
+
+                    buy_price, sell_price, buy_quantity, sell_quantity = self.getBidAsk()
+                    # sell_limit_order = self.executeSellLimitOrder(self.trade_amount, sell_price + 0.5, self.leverage)
+                    sell_limit_orders.append(self.executeSellLimitOrder(self.trade_amount, sell_price + 0.5, self.leverage))
+
+                    print("placed new sell limit order at price " + str(sell_price + 0.5) + ", with status: " + str(self.getStatus(sell_limit_orders[-1])))
+                    t0 = time.time()
+
+                    continue   
+            elif self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
+
+                print("sell limit order filled, buy limit order not filled")
+                print("t = " + str(self.timePassed(t0, time.time())))
+
+                if self.timePassed(t0, time.time()) < timeThreshold:
+                    print("time threshold not reached --> wait for buy limit order to fill")
+                    continue
+                else:
+                    print("time threshold reached --> cancel buy limit order and place new one")
+                    self.cancelOrder(buy_limit_orders[-1])
+
+
+                    print("status of buy limit order is: " + str(self.getStatus(buy_limit_orders[-1])))
+                    buy_price, sell_price, buy_quantity, sell_quantity = self.getBidAsk()
+                    # buy_limit_order = self.executeSellLimitOrder(self.trade_amount, buy_price - 0.5, self.leverage)
+                    buy_limit_orders.append(self.executeSellLimitOrder(self.trade_amount, buy_price - 0.5, self.leverage))
+
+                    print("placed new sell limit order at price " + str(buy_price - 0.5) + ", with status: " + str(self.getStatus(sell_limit_orders[-1])))
+                    t0 = time.time()
+
+                    continue   
+
+            elif self.isFilled(sell_limit_orders[-1]) and self.isFilled(buy_limit_orders[-1]):
+                print("both buy and sell limit order filled, buy price: " + str(buy_price - 0.5) + ", sell price: " + str(sell_price + 0.5))
+                break
+
+            elif not self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
+                print("both buy and sell order not filled --> go back to begin of loop")
+
+    def runLimitOrderPlacement(self):
         
         buy_limit_orders = []
         sell_limit_orders = []
@@ -177,23 +322,16 @@ class spreadBot():
 
 if __name__ == "__main__":
 
-    # apiKey = 'Gd5LBVd5KJKD2rv0RNQJ-Dek'
-    # secretKey = 'pzgmaHVKvxuym7BZA0LWnlR9WUdjAyzFHqFQawMht0hdCCV2'
+    apiKey = 'Gd5LBVd5KJKD2rv0RNQJ-Dek'
+    secretKey = 'pzgmaHVKvxuym7BZA0LWnlR9WUdjAyzFHqFQawMht0hdCCV2'
     
-    apiKey = '-GWrtORaoFmYRA_69-a1hbNv'
-    secretKey = '0xFx3M8sixjKA9dGx1YyxHr9UPNBuZ7g-_CTK-_3feDSsUb7'
+    # apiKey = '-GWrtORaoFmYRA_69-a1hbNv'
+    # secretKey = '0xFx3M8sixjKA9dGx1YyxHr9UPNBuZ7g-_CTK-_3feDSsUb7'
 
     trade_amount = 50
     leverage = 100
-    # +- this difference depending on stop buy/sell order
-    stop_price_difference = 15
-    spread_bot = spreadBot(apiKey, secretKey, trade_amount, leverage, stop_price_difference)
+    spread_bot = spreadBot(apiKey, secretKey, trade_amount, leverage)
 
-    # spread_bot.plot_data('data.csv')
-    spread_bot.run()
+    spread_bot.runSpreadBot()
 
-    # while True:
-    #     try:
-    #         spread_bot.run()
-    #     except Exception as e: print(e)
 
