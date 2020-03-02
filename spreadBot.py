@@ -7,7 +7,7 @@ import numpy as np
 
 class spreadBot():
 
-    def __init__(self, apiKey, secretKey, trade_amount, leverage):
+    def __init__(self, apiKey, secretKey, trade_amount, leverage, stop):
         self.bitmex   = ccxt.bitmex(
             {
             'apiKey': apiKey,
@@ -20,6 +20,7 @@ class spreadBot():
         self.balance = {'BTC':0.0, 'USD':0.0}
         self.trade_amount = trade_amount
         self.leverage = leverage
+        self.stop = stop
 
     def collect_data(self):
         f = open('data.csv', 'a')
@@ -47,6 +48,20 @@ class spreadBot():
         sell_quantity = bids[0][1]        
 
         return buy_price, sell_price, buy_quantity, sell_quantity
+
+    def executeBuyMarketStopLossOrder(self, quantity, price, leverage, stop):
+        order_type = 'Stop'
+        params = {
+            'stopPx': price + stop
+        }
+        return self.bitmex.create_order(self.symbol, order_type, 'buy', int(quantity+0.5), None, params)
+
+    def executeSellMarketStopLossOrder(self, quantity, price, leverage, stop):
+        order_type = 'Stop'
+        params = {
+            'stopPx': price - stop
+        }
+        return self.bitmex.create_order(self.symbol, order_type, 'sell', int(quantity+0.5), None, params)
 
 
     def executeBuyLimitOrder(self, quantity, price, leverage):
@@ -87,7 +102,7 @@ class spreadBot():
         self.bitmex.cancel_order(order['info']['orderID'])
 
 
-    def getOrderBook(self, depth):
+    def getOrderbook(self, depth):
         return self.bitmex.fetch_order_book(self.symbol, depth)
 
     def getFirstPrices(self):
@@ -105,9 +120,104 @@ class spreadBot():
 
         return sell_price - buy_price    
 
-
     def getMarketDirection(self, previous_price, current_price):
         orderbook = self.getOrderbook()
+
+    def isListEmpty(self, list):
+        return len(list) == 0
+
+    def runLimitStopPlacementBot(self):
+        buy_limit_orders = []
+        sell_limit_orders = []
+        buy_stop_orders = []
+        sell_stop_orders = []
+
+        # quantity = min(buy_quantity, sell_quantity, btc_balance/2*buy_price, btc_balance/2*sell_price)
+        quantity = self.trade_amount
+
+        orderbook = self.getOrderbook(3)
+        bids = orderbook['bids']
+        asks = orderbook['asks'] 
+
+        # get first prices in orderbook
+        buy_price = bids[0][0]
+        sell_price = asks[0][0]
+
+        buy_limit_order = self.executeBuyLimitOrder(quantity, buy_price, self.leverage)
+        print("buy limit order placed: price = " + str(buy_price))
+
+        sell_limit_order = self.executeSellLimitOrder(self.trade_amount, sell_price, self.leverage)
+        print("sell limit order placed: price = " + str(sell_price))
+        
+        sell_limit_orders.append(sell_limit_order)
+        buy_limit_orders.append(buy_limit_order)
+
+
+        while True:
+            if self.isFilled(buy_limit_orders[-1]) and not self.isFilled(sell_limit_orders[-1]):
+                print('buy limit order filled, sell limit order not filled')
+
+                if self.isListEmpty(sell_stop_orders):
+                    sell_stop_orders.append(self.executeSellMarketStopLossOrder(quantity, sell_price, self.leverage, self.stop))
+                    print('posted sell market stop loss order')
+                else:
+                    if self.isFilled(sell_stop_orders[-1]):
+                        self.cancelOrder(sell_limit_orders[-1])
+                        print('sell stop loss order filled --> sell limit order canceled')
+                        break
+                    elif self.isFilled(sell_limit_orders[-1]):
+                        self.cancelOrder(sell_stop_orders[-1])
+                        print('sell limit order filled --> sell stop loss canceled')
+                        break
+                    else:
+                        print('sell market stop loss order or limit order not filled yet')
+                        continue
+ 
+            elif self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
+                print('sell limit order filled, buy limit order not filled')
+
+                if self.isListEmpty(buy_stop_orders):
+                    buy_stop_orders.append(self.executeBuyMarketStopLossOrder(quantity, buy_price, self.leverage, self.stop))
+                    print('posted buy market stop loss order')
+
+                else:
+                    if self.isFilled(buy_stop_orders[-1]):
+                        self.cancelOrder(buy_limit_orders[-1])
+                        print('buy stop loss order filled --> buy stop loss canceled')
+
+                        break
+                    elif self.isFilled(buy_limit_orders[-1]):
+                        self.cancelOrder(buy_stop_orders[-1])
+                        print('buy limit order filled --> buy stop loss canceled')
+
+                        break
+                    else:
+                        print('buy market stop loss order or limit order not filled yet')
+
+                        continue
+
+
+            elif self.isFilled(sell_limit_orders[-1]) and self.isFilled(buy_limit_orders[-1]):
+                print("both buy and sell limit order filled, buy price: " + str(buy_price) + ", sell price: " + str(sell_price))
+
+                if not self.isListEmpty(sell_stop_orders):
+                    if not self.isFilled(sell_stop_orders[-1]):
+                        self.cancelOrder(sell_stop_orders[-1])
+                        print('sell stop loss order not filled --> canceled')
+                elif not self.isListEmpty(buy_stop_orders):
+                    if not self.isFilled(buy_stop_orders[-1]):
+                        self.cancelOrder(buy_stop_orders[-1])
+                        print('buy stop loss order not filled --> canceled')
+                break
+
+            elif not self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
+                print("both buy and sell order not filled --> cancel both")
+                self.cancelOrder(buy_limit_orders[-1])
+                print("buy limit order canceled")
+                self.cancelOrder(sell_limit_orders[-1])
+                print("sell limit order canceled")
+
+                break
 
     def runSpreadBot(self):
             buy_limit_orders = []
@@ -119,7 +229,7 @@ class spreadBot():
             with open("log_file.txt", 'a') as log_file:
                 while True:
                     try:
-                        orderbook = self.getOrderBook(1)
+                        orderbook = self.getOrderbook(1)
                         bids = orderbook['bids']
                         asks = orderbook['asks'] 
 
@@ -163,6 +273,7 @@ class spreadBot():
                         else:
                             print("Spread = " + str(spread))
                     except Exception as e:
+                        print(e)
                         log_file.write(str(e) + "\n")
                         continue
 
@@ -313,16 +424,18 @@ class spreadBot():
 
 if __name__ == "__main__":
 
-    apiKey = 'Gd5LBVd5KJKD2rv0RNQJ-Dek'
-    secretKey = 'pzgmaHVKvxuym7BZA0LWnlR9WUdjAyzFHqFQawMht0hdCCV2'
+    apiKey = 'xAdGLZ3ahuZSv2lwwgO9zK6Q'
+    secretKey = 'OIxtUgSWI-Oq2Eoig6k0GG3T1bN8_Gl6mp84c-TPU0W1T9qO'
     
     # apiKey = '-GWrtORaoFmYRA_69-a1hbNv'
     # secretKey = '0xFx3M8sixjKA9dGx1YyxHr9UPNBuZ7g-_CTK-_3feDSsUb7'
 
     trade_amount = 50
     leverage = 100
-    spread_bot = spreadBot(apiKey, secretKey, trade_amount, leverage)
+    stop = 100
 
-    spread_bot.runSpreadBot()
+    spread_bot = spreadBot(apiKey, secretKey, trade_amount, leverage, stop)
 
+    while True:
+        spread_bot.runLimitStopPlacementBot()
 
