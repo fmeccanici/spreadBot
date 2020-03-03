@@ -128,107 +128,111 @@ class spreadBot():
 
     def runLimitStopPlacementBot(self):
         while True:
-            buy_limit_orders = []
-            sell_limit_orders = []
-            buy_stop_orders = []
-            sell_stop_orders = []
+            with open("log_file.txt", 'a') as log_file:
+                try:
+                    buy_limit_orders = []
+                    sell_limit_orders = []
+                    buy_stop_orders = []
+                    sell_stop_orders = []
 
-            # quantity = min(buy_quantity, sell_quantity, btc_balance/2*buy_price, btc_balance/2*sell_price)
-            quantity = self.trade_amount
+                    # quantity = min(buy_quantity, sell_quantity, btc_balance/2*buy_price, btc_balance/2*sell_price)
+                    quantity = self.trade_amount
 
-            orderbook = self.getOrderbook(3)
-            bids = orderbook['bids']
-            asks = orderbook['asks'] 
+                    orderbook = self.getOrderbook(3)
+                    bids = orderbook['bids']
+                    asks = orderbook['asks'] 
 
-            # get first prices in orderbook
-            buy_price = bids[0][0]
-            sell_price = asks[0][0]
+                    # get first prices in orderbook
+                    buy_price = bids[0][0]
+                    sell_price = asks[0][0]
 
-            buy_limit_order = self.executeBuyLimitOrder(quantity, buy_price, self.leverage)
-            print("buy limit order placed: price = " + str(buy_price))
+                    buy_limit_order = self.executeBuyLimitOrder(quantity, buy_price, self.leverage)
+                    print("buy limit order placed: price = " + str(buy_price))
 
-            sell_limit_order = self.executeSellLimitOrder(self.trade_amount, sell_price, self.leverage)
-            print("sell limit order placed: price = " + str(sell_price))
+                    if self.isCanceled(buy_limit_order):
+                        print('post only error on buy limit order --> dont post sell limit order')
+                        continue
+                    
+                    sell_limit_order = self.executeSellLimitOrder(self.trade_amount, sell_price, self.leverage)
+                    print("sell limit order placed: price = " + str(sell_price))
+                    
+                    if self.isCanceled(sell_limit_order):
+                        print('post only error on sell limit order --> cancel buy limit order')
+                        self.cancelOrder(buy_limit_order)
+                        continue
+
+                    sell_limit_orders.append(sell_limit_order)
+                    buy_limit_orders.append(buy_limit_order)
+
+
+                    while True:
+                        if self.isFilled(buy_limit_orders[-1]) and not self.isFilled(sell_limit_orders[-1]):
+                            print('buy limit order filled, sell limit order not filled')
+
+                            if self.isListEmpty(sell_stop_orders):
+                                sell_stop_orders.append(self.executeSellMarketStopLossOrder(quantity, sell_price, self.leverage, self.stop))
+                                print('posted sell market stop loss order')
+                            else:
+                                if self.isFilled(sell_stop_orders[-1]):
+                                    self.cancelOrder(sell_limit_orders[-1])
+                                    print('sell stop loss order filled --> sell limit order canceled')
+                                    break
+                                elif self.isFilled(sell_limit_orders[-1]):
+                                    self.cancelOrder(sell_stop_orders[-1])
+                                    print('sell limit order filled --> sell stop loss canceled')
+                                    break
+                                else:
+                                    print('sell market stop loss order or limit order not filled yet')
+                                    continue
             
-            if self.isCanceled(buy_limit_order) and not self.isCanceled(sell_limit_order):
-                print('post only error on buy limit order --> cancel sell limit order')
-                self.cancelOrder(sell_limit_order)
-                continue
-            elif self.isCanceled(sell_limit_order) and not self.isCanceled(buy_limit_order):
-                print('post only error on sell limit order --> cancel buy limit order')
-                self.cancelOrder(buy_limit_order)
-                continue
-            elif not self.isCanceled(buy_limit_order) and not self.isCanceled(sell_limit_order):
-                pass
+                        elif self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
+                            print('sell limit order filled, buy limit order not filled')
 
-            sell_limit_orders.append(sell_limit_order)
-            buy_limit_orders.append(buy_limit_order)
+                            if self.isListEmpty(buy_stop_orders):
+                                buy_stop_orders.append(self.executeBuyMarketStopLossOrder(quantity, buy_price, self.leverage, self.stop))
+                                print('posted buy market stop loss order')
+
+                            else:
+                                if self.isFilled(buy_stop_orders[-1]):
+                                    self.cancelOrder(buy_limit_orders[-1])
+                                    print('buy stop loss order filled --> buy stop loss canceled')
+
+                                    break
+                                elif self.isFilled(buy_limit_orders[-1]):
+                                    self.cancelOrder(buy_stop_orders[-1])
+                                    print('buy limit order filled --> buy stop loss canceled')
+
+                                    break
+                                else:
+                                    print('buy market stop loss order or limit order not filled yet')
+
+                                    continue
 
 
-            while True:
-                if self.isFilled(buy_limit_orders[-1]) and not self.isFilled(sell_limit_orders[-1]):
-                    print('buy limit order filled, sell limit order not filled')
+                        elif self.isFilled(sell_limit_orders[-1]) and self.isFilled(buy_limit_orders[-1]):
+                            print("both buy and sell limit order filled, buy price: " + str(buy_price) + ", sell price: " + str(sell_price))
 
-                    if self.isListEmpty(sell_stop_orders):
-                        sell_stop_orders.append(self.executeSellMarketStopLossOrder(quantity, sell_price, self.leverage, self.stop))
-                        print('posted sell market stop loss order')
-                    else:
-                        if self.isFilled(sell_stop_orders[-1]):
-                            self.cancelOrder(sell_limit_orders[-1])
-                            print('sell stop loss order filled --> sell limit order canceled')
+                            if not self.isListEmpty(sell_stop_orders):
+                                if not self.isFilled(sell_stop_orders[-1]):
+                                    self.cancelOrder(sell_stop_orders[-1])
+                                    print('sell stop loss order not filled --> canceled')
+                            elif not self.isListEmpty(buy_stop_orders):
+                                if not self.isFilled(buy_stop_orders[-1]):
+                                    self.cancelOrder(buy_stop_orders[-1])
+                                    print('buy stop loss order not filled --> canceled')
                             break
-                        elif self.isFilled(sell_limit_orders[-1]):
-                            self.cancelOrder(sell_stop_orders[-1])
-                            print('sell limit order filled --> sell stop loss canceled')
-                            break
-                        else:
-                            print('sell market stop loss order or limit order not filled yet')
-                            continue
-    
-                elif self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
-                    print('sell limit order filled, buy limit order not filled')
 
-                    if self.isListEmpty(buy_stop_orders):
-                        buy_stop_orders.append(self.executeBuyMarketStopLossOrder(quantity, buy_price, self.leverage, self.stop))
-                        print('posted buy market stop loss order')
-
-                    else:
-                        if self.isFilled(buy_stop_orders[-1]):
-                            self.cancelOrder(buy_limit_orders[-1])
-                            print('buy stop loss order filled --> buy stop loss canceled')
-
-                            break
-                        elif self.isFilled(buy_limit_orders[-1]):
-                            self.cancelOrder(buy_stop_orders[-1])
-                            print('buy limit order filled --> buy stop loss canceled')
-
-                            break
-                        else:
-                            print('buy market stop loss order or limit order not filled yet')
+                        elif not self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
+                            print("both buy and sell order not filled --> continue loop")
+                            # self.cancelOrder(buy_limit_orders[-1])
+                            # print("buy limit order canceled")
+                            # self.cancelOrder(sell_limit_orders[-1])
+                            # print("sell limit order canceled")
 
                             continue
-
-
-                elif self.isFilled(sell_limit_orders[-1]) and self.isFilled(buy_limit_orders[-1]):
-                    print("both buy and sell limit order filled, buy price: " + str(buy_price) + ", sell price: " + str(sell_price))
-
-                    if not self.isListEmpty(sell_stop_orders):
-                        if not self.isFilled(sell_stop_orders[-1]):
-                            self.cancelOrder(sell_stop_orders[-1])
-                            print('sell stop loss order not filled --> canceled')
-                    elif not self.isListEmpty(buy_stop_orders):
-                        if not self.isFilled(buy_stop_orders[-1]):
-                            self.cancelOrder(buy_stop_orders[-1])
-                            print('buy stop loss order not filled --> canceled')
-                    break
-
-                elif not self.isFilled(sell_limit_orders[-1]) and not self.isFilled(buy_limit_orders[-1]):
-                    print("both buy and sell order not filled --> continue loop")
-                    # self.cancelOrder(buy_limit_orders[-1])
-                    # print("buy limit order canceled")
-                    # self.cancelOrder(sell_limit_orders[-1])
-                    # print("sell limit order canceled")
-
+                except Exception as e:
+                    print(e)
+                    log_file.write(str(e) + "\n")
                     continue
 
     def runSpreadBot(self):
