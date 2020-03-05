@@ -440,9 +440,10 @@ class spreadBot():
 
 if __name__ == "__main__":
 
-    apiKey = 'xAdGLZ3ahuZSv2lwwgO9zK6Q'
-    secretKey = 'OIxtUgSWI-Oq2Eoig6k0GG3T1bN8_Gl6mp84c-TPU0W1T9qO'
-    
+    # apiKey = 'xAdGLZ3ahuZSv2lwwgO9zK6Q'
+    # secretKey = 'OIxtUgSWI-Oq2Eoig6k0GG3T1bN8_Gl6mp84c-TPU0W1T9qO'
+    apiKey = '8mxQ1SpoxB1jMJjFs0StNPGm'
+    secretKey = '7h1ZhLL2b0In36YpvDxwTckCzggssiIX-Ud0Llo0h9p2vDX7'
     # apiKey = '-GWrtORaoFmYRA_69-a1hbNv'
     # secretKey = '0xFx3M8sixjKA9dGx1YyxHr9UPNBuZ7g-_CTK-_3feDSsUb7'
 

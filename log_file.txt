@@ -1,0 +1,691 @@
+bitmex {"error":{"message":"This key is disabled.","name":"HTTPError"}}
+bitmex {"error":{"message":"This key is disabled.","name":"HTTPError"}}
+bitmex: The order 6a520614-07db-58b5-d272-63ecc889e60a not found.
+bitmex {"error":{"message":"This request has expired - `expires` is in the past. Current time: 1583412102","name":"HTTPError"}}
+GET https://www.bitmex.com/api/v1/order?filter=%7B%22orderID%22%3A%222fc30a38-c0e2-eef6-9b91-3a47b7201562%22%7D
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/orderBook/L2?depth=3&symbol=XBTUSD 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/instrument/activeAndIndices 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/instrument/activeAndIndices 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
+GET https://www.bitmex.com/api/v1/instrument/activeAndIndices 403 Forbidden <html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<center><h1>403 Forbidden</h1></center>
+</body>
+</html>
+
